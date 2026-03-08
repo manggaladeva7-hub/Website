@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime - LUXE Streaming</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .anime-page { padding-top: 100px; padding-bottom: 80px; }
+        .anime-header { padding: 40px; background: linear-gradient(180deg, rgba(219, 39, 119, 0.2) 0%, transparent 100%); }
+        .anime-header h1 { font-family: var(--font-display); font-size: clamp(36px, 5vw, 56px); font-weight: 700; margin-bottom: 10px; }
+        .anime-header p { color: var(--text-secondary); font-size: 14px; }
+        .anime-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; padding: 40px; }
+        .anime-card { background: var(--bg-card); border-radius: var(--radius-md); overflow: hidden; cursor: pointer; transition: var(--transition); }
+        .anime-card:hover { transform: translateY(-6px); box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
+        .anime-card-img { width: 100%; aspect-ratio: 2/3; position: relative; overflow: hidden; }
+        .anime-card-img img { width: 100%; height: 100%; object-fit: cover; }
+        .anime-badge { position: absolute; top: 8px; right: 8px; padding: 4px 10px; background: var(--accent-pink); border-radius: 12px; font-size: 10px; font-weight: 600; }
+        .anime-card-info { padding: 12px; }
+        .anime-card-title { font-size: 13px; font-weight: 600; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .anime-card-meta { font-size: 11px; color: var(--text-secondary); display: flex; justify-content: space-between; }
+        .anime-card-genre { font-size: 10px; color: var(--accent-pink); margin-top: 6px; }
+        
+        .video-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; align-items: center; justify-content: center; }
+        .video-modal.active { display: flex; }
+        .video-container { width: 95%; max-width: 1000px; background: var(--bg-secondary); border-radius: 16px; overflow: hidden; }
+        .video-header { padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.3); }
+        .video-header h3 { font-size: 18px; }
+        .video-close { width: 40px; height: 40px; background: var(--bg-card); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; }
+        .video-player { width: 100%; aspect-ratio: 16/9; background: black; display: flex; align-items: center; justify-content: center; }
+        .video-player img { max-width: 100%; max-height: 100%; }
+        .video-controls { padding: 16px 24px; display: flex; align-items: center; gap: 15px; }
+        .video-btn { padding: 10px 20px; background: var(--accent-pink); color: white; border-radius: 8px; font-weight: 500; cursor: pointer; }
+        .video-episodes { display: flex; gap: 10px; flex-wrap: wrap; padding: 20px; max-height: 200px; overflow-y: auto; }
+        .ep-btn { padding: 8px 16px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; cursor: pointer; font-size: 13px; }
+        .ep-btn:hover, .ep-btn.active { background: var(--accent-pink); border-color: var(--accent-pink); }
+        
+        @media (max-width: 768px) { .anime-header, .anime-grid { padding: 20px; } .anime-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">LUXE<span style="color: var(--accent-pink);">.Anime</span></a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Beranda</a>
+                <a href="musik.html" class="nav-link">Musik</a>
+                <a href="anime.html" class="nav-link active">Anime</a>
+            </div>
+            <div class="nav-actions">
+                <button class="nav-btn"><i class="fas fa-search"></i></button>
+            </div>
+    </nav>
+
+    <main class="anime-page">
+        <div class="anime-header">
+            <h1>LUXE Anime</h1>
+            <p>Nonton anime favorit Anda</p>
+        </div>
+        
+        <div class="anime-grid" id="animeGrid"></div>
+    </main>
+
+    <div class="video-modal" id="videoModal">
+        <div class="video-container">
+            <div class="video-header">
+                <h3 id="videoTitle">Anime Title</h3>
+                <div class="video-close" onclick="closeVideo()">&times;</div>
+            <div class="video-player">
+                <img src="" alt="" id="videoImage">
+            </div>
+            <div class="video-controls">
+                <button class="video-btn" onclick="prevEpisode()"><i class="fas fa-step-backward"></i> Prev</button>
+                <span id="currentEp" style="color: var(--text-secondary);">Episode 1</span>
+                <button class="video-btn" onclick="nextEpisode()">Next <i class="fas fa-step-forward"></i></button>
+            </div>
+            <div class="video-episodes" id="episodeList"></div>
+    </div>
+
+    <script>
+    var animeData = [
+        {id:1,title:"Naruto",genre:"Action",eps:26,rating:"9.5",year:2024,img:"https://picsum.photos/300/400?random=1"},
+        {id:2,title:"One Piece",genre:"Adventure",eps:1100,rating:"9.1",year:2024,img:"https://picsum.photos/300/400?random=2"},
+        {id:3,title:"Demon Slayer",genre:"Action",eps:26,rating:"9.5",year:2024,img:"https://picsum.photos/300/400?random=3"},
+        {id:4,title:"Jujutsu Kaisen",genre:"Action",eps:24,rating:"9.3",year:2024,img:"https://picsum.photos/300/400?random=4"},
+        {id:5,title:"Attack on Titan",genre:"Drama",eps:87,rating:"9.4",year:2024,img:"https://picsum.photos/300/400?random=5"},
+        {id:6,title:"My Hero Academia",genre:"Superhero",eps:138,rating:"8.9",year:2024,img:"https://picsum.photos/300/400?random=6"},
+        {id:7,title:"Spy x Family",genre:"Comedy",eps:25,rating:"9.2",year:2024,img:"https://picsum.photos/300/400?random=7"},
+        {id:8,title:"Chainsaw Man",genre:"Action",eps:12,rating:"8.8",year:2024,img:"https://picsum.photos/300/400?random=8"}
+    ];
+    
+    var currentAnime = null;
+    var currentEpisode = 1;
+
+    function renderAnime() {
+        var html = '';
+        animeData.forEach(function(a,i){
+            html += '<div class="anime-card" onclick="openVideo('+i+')"><div class="anime-card-img"><img src="'+a.img+'"><span class="anime-badge">'+a.rating+'</span></div><div class="anime-card-info"><div class="anime-card-title">'+a.title+'</div><div class="anime-card-meta"><span>'+a.year+'</span><span>'+a.eps+' eps</span></div><div class="anime-card-genre">'+a.genre+'</div></div>';
+        });
+        document.getElementById('animeGrid').innerHTML = html;
+    }
+
+    function renderEpisodes() {
+        var eps = currentAnime ? currentAnime.eps : 12;
+        var html = '';
+        for(var i=1; i<=Math.min(eps,24); i++) {
+            html += '<button class="ep-btn '+(i===currentEpisode?'active':'')+'" onclick="selectEp('+i+')">Ep '+i+'</button>';
+        }
+        document.getElementById('episodeList').innerHTML = html;
+    }
+
+    function openVideo(index) {
+        currentAnime = animeData[index];
+        currentEpisode = 1;
+        document.getElementById('videoTitle').textContent = currentAnime.title;
+        document.getElementById('videoImage').src = currentAnime.img.replace('300/400','1200/675');
+        document.getElementById('currentEp').textContent = 'Episode ' + currentEpisode;
+        renderEpisodes();
+        document.getElementById('videoModal').classList.add('active');
+    }
+
+    function closeVideo() {
+        document.getElementById('videoModal').classList.remove('active');
+    }
+
+    function selectEp(ep) {
+        currentEpisode = ep;
+        document.getElementById('currentEp').textContent = 'Episode ' + ep;
+        renderEpisodes();
+    }
+
+    function prevEpisode() {
+        if(currentEpisode > 1) { currentEpisode--; selectEp(currentEpisode); }
+    }
+
+    function nextEpisode() {
+        if(currentAnime && currentEpisode < currentAnime.eps) { currentEpisode++; selectEp(currentEpisode); }
+    }
+
+    document.getElementById('videoModal').onclick = function(e) {
+        if(e.target === this) closeVideo();
+    };
+
+    renderAnime();
+    </script>
+</body>
+</html>

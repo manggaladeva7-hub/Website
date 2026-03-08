@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produk - LUXE Store</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .filter-chip { padding: 10px 20px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 50px; color: var(--text-secondary); font-size: 13px; font-weight: 500; cursor: pointer; transition: var(--transition); }
+        .filter-chip:hover, .filter-chip.active { background: var(--text-primary); color: var(--bg-primary); border-color: var(--text-primary); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">LUXE</a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Beranda</a>
+                <a href="produk.html" class="nav-link active">Produk</a>
+                <a href="tentang.html" class="nav-link">Tentang</a>
+                <a href="kontak.html" class="nav-link">Kontak</a>
+            </div>
+            <div class="nav-actions">
+                <button class="nav-btn" onclick="openCart()"><i class="fas fa-shopping-bag"></i><span class="cart-count" id="cartCount">0</span></button>
+                <button class="nav-btn" onclick="openAdmin()"><i class="fas fa-user-shield"></i></button>
+            </div>
+    </nav>
+
+    <main style="padding-top: 100px; min-height: 100vh; padding-bottom: 120px;">
+        <div style="padding: 40px; background: linear-gradient(180deg, rgba(99, 102, 241, 0.2) 0%, transparent 100%);">
+            <h1 style="font-family: var(--font-display); font-size: clamp(36px, 5vw, 56px); font-weight: 700; margin-bottom: 8px;">Produk Kami</h1>
+            <p style="color: var(--text-secondary); font-size: 14px;">Koleksi produk premium untuk Anda</p>
+        </div>
+        
+        <div style="padding: 20px 40px; display: flex; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--border-color);">
+            <button class="filter-chip active">Semua</button>
+            <button class="filter-chip">Jualan Akun</button>
+            <button class="filter-chip">Jualan Logo</button>
+            <button class="filter-chip">Aplikasi Bug</button>
+            <button class="filter-chip">Script WhatsApp</button>
+        </div>
+
+        <div style="padding: 40px;">
+            <div style="grid-column: 1 / -1; text-align: center; padding: 100px 20px;">
+                <div style="width: 140px; height: 140px; background: var(--bg-card); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 30px;">
+                    <i class="fas fa-box-open" style="font-size: 56px; color: var(--text-muted);"></i>
+                </div>
+                <h3 style="font-family: var(--font-display); font-size: 28px; font-weight: 600; margin-bottom: 12px;">Belum Ada Produk</h3>
+                <p style="color: var(--text-secondary); max-width: 450px; margin: 0 auto 24px;">Produk akan segera ditambahkan. Silakan hubungi admin untuk menambahkan produk.</p>
+                <div style="display: inline-flex; align-items: center; gap: 10px; padding: 16px 24px; background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 12px;">
+                    <i class="fas fa-user-shield" style="color: var(--accent-primary);"></i>
+                    <span style="color: var(--accent-primary); font-weight: 600;">Login sebagai Admin</span> untuk menambahkan produk
+                </div>
+        </div>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" onclick="closeCart()"></div>
+    <div class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Keranjang</h3>
+            <button onclick="closeCart()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer">
+            <div class="cart-total">Total: <span id="cartTotal">Rp 0</span></div>
+            <button class="checkout-btn" onclick="checkout()">Checkout</button>
+        </div>
+
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content" style="position: relative;">
+            <button class="modal-close" onclick="closePayment()"><i class="fas fa-times"></i></button>
+            <h3>Pembayaran</h3>
+            <p>Total: <strong id="payTotal">Rp 0</strong></p>
+            <img src="https://files.catbox.moe/239o0t.jpeg" alt="QRIS" style="max-width: 200px; border-radius: 12px; margin: 15px 0;">
+            <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 5px;">Scan QRIS dengan aplikasi DANA/Bank</p>
+            <p style="font-size: 16px; font-weight: 600; margin: 15px 0;">atau transfer ke DANA: <strong>6287881538701</strong></p>
+            <input type="text" id="customerName" placeholder="Nama Anda">
+            <button onclick="processPayment()">Konfirmasi Pembayaran</button>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content success-modal-content" style="position: relative;">
+            <button class="modal-close" onclick="closeSuccess()"><i class="fas fa-times"></i></button>
+            <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+            <h2>Pembayaran Berhasil!</h2>
+            <p>Order ID: <span id="successOrderId"></span></p>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-top: 10px;">Silakan kirim bukti transfer via WhatsApp</p>
+            <button onclick="closeSuccess()">OK</button>
+        </div>
+    </div>
+
+    <!-- Admin Modal -->
+    <div class="modal" id="adminModal">
+        <div class="modal-content" style="position: relative;">
+            <button class="modal-close" onclick="closeAdminModal()"><i class="fas fa-times"></i></button>
+            <h3>Login Admin</h3>
+            <input type="text" id="adminUsername" placeholder="Username">
+            <input type="password" id="adminPassword" placeholder="Password">
+            <button onclick="loginAdmin()">Login</button>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div class="modal" id="uploadModal">
+        <div class="modal-content" style="position: relative;">
+            <button class="modal-close" onclick="closeUpload()"><i class="fas fa-times"></i></button>
+            <h3>Tambah Produk</h3>
+            <input type="text" id="productName" placeholder="Nama Produk">
+            <input type="number" id="productPrice" placeholder="Harga">
+            <textarea id="productDesc" placeholder="Deskripsi Produk" rows="3" style="width: 100%; padding: 14px 18px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); color: var(--text-primary); font-size: 14px; margin-bottom: 14px; resize: none;"></textarea>
+            <input type="text" id="productImage" placeholder="URL Gambar">
+            <button onclick="addProduct()">Simpan</button>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+    <script src="js/store.js"></script>
+    <script>
+    document.querySelectorAll('.filter-chip').forEach(function(c){
+        c.onclick=function(){
+            document.querySelectorAll('.filter-chip').forEach(function(x){
+                x.classList.remove('active');
+                x.style.background='var(--bg-card)';
+                x.style.color='var(--text-secondary)';
+            });
+            this.classList.add('active');
+            this.style.background='var(--text-primary)';
+            this.style.color='var(--bg-primary)';
+        };
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kategori - LUXE Store</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader-container" id="loader">
+        <div class="loader">
+            <div class="loader-ring"></div>
+            <div class="loader-text">LUXE</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">LUXE<span class="logo-dot">.</span></a>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Beranda</a>
+                <a href="produk.html" class="nav-link">Produk</a>
+                <a href="kategori.html" class="nav-link">Kategori</a>
+                <a href="tentang.html" class="nav-link">Tentang</a>
+            </div>
+            <div class="nav-actions">
+                <button class="search-btn" id="searchBtn">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="cart-btn" id="cartBtn">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+                <button class="admin-btn" id="adminBtn" title="Login Admin">
+                    <i class="fas fa-user-shield"></i>
+                </button>
+                <button class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Search Bar -->
+        <div class="search-bar" id="searchBar">
+            <input type="text" placeholder="Cari produk favorit Anda..." id="searchInput">
+            <button class="search-submit"><i class="fas fa-arrow-right"></i></button>
+        </div>
+    </nav>
+
+    <!-- Categories Section -->
+    <section class="categories-page" id="categories" style="padding-top: 120px;">
+        <div class="section-header">
+            <span class="section-tag">Kategori Pilihan</span>
+            <h2 class="section-title">Jelajahi Kategori</h2>
+        </div>
+        <div class="categories-grid">
+            <div class="category-card" data-category="jualan-akun" onclick="window.location.href='produk.html?filter=jualan-akun'">
+                <div class="category-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3>Jualan Akun</h3>
+                <p>Akun premium berbagai platform</p>
+                <span class="category-count">50+ Produk</span>
+            </div>
+            <div class="category-card" data-category="jualan-logo" onclick="window.location.href='produk.html?filter=jualan-logo'">
+                <div class="category-icon">
+                    <i class="fas fa-pen-nib"></i>
+                </div>
+                <h3>Jualan Logo</h3>
+                <p>Desain logo profesional</p>
+                <span class="category-count">35+ Produk</span>
+            </div>
+            <div class="category-card" data-category="jualan-aplikasi-bug" onclick="window.location.href='produk.html?filter=jualan-aplikasi-bug'">
+                <div class="category-icon">
+                    <i class="fas fa-bug"></i>
+                </div>
+                <h3>Jualan Aplikasi Bug</h3>
+                <p>Aplikasi & tools bug</p>
+                <span class="category-count">45+ Produk</span>
+            </div>
+            <div class="category-card" data-category="script-bug-whatsapp" onclick="window.location.href='produk.html?filter=script-bug-whatsapp'">
+                <div class="category-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <h3>Script Bug Via WhatsApp</h3>
+                <p>Script bug untuk WhatsApp</p>
+                <span class="category-count">30+ Produk</span>
+            </div>
+            <div class="category-card" data-category="script-bug-telegram" onclick="window.location.href='produk.html?filter=script-bug-telegram'">
+                <div class="category-icon">
+                    <i class="fab fa-telegram"></i>
+                </div>
+                <h3>Script Bug Via Telegram</h3>
+                <p>Script bug untuk Telegram</p>
+                <span class="category-count">25+ Produk</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">LUXE<span class="logo-dot">.</span></a>
+                    <p>Destination belanja online premium untuk produk-produk berkualitas dari merek-merek ternama.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Kategori</h4>
+                    <ul>
+                        <li><a href="produk.html">Jualan Akun</a></li>
+                        <li><a href="produk.html">Jualan Logo</a></li>
+                        <li><a href="produk.html">Jualan Aplikasi Bug</a></li>
+                        <li><a href="produk.html">Script Bug Via WhatsApp</a></li>
+                        <li><a href="produk.html">Script Bug Via Telegram</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Menu</h4>
+                    <ul>
+                        <li><a href="index.html">Beranda</a></li>
+                        <li><a href="produk.html">Produk</a></li>
+                        <li><a href="kategori.html">Kategori</a></li>
+                        <li><a href="tentang.html">Tentang Kami</a></li>
+                        <li><a href="kontak.html">Kontak Kami</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Hubungi Kami</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Jakarta, Indonesia</li>
+                        <li><i class="fas fa-phone"></i> +62 812 3456 7890</li>
+                        <li><i class="fas fa-envelope"></i> hello@luxe.id</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 LUXE. All rights reserved. Made with <i class="fas fa-heart"></i></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Keranjang Belanja</h3>
+            <button class="cart-close" id="cartClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty">
+                <i class="fas fa-shopping-bag"></i>
+                <p>Keranjang Anda kosong</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">Rp 0</span>
+            </div>
+            <button class="btn-checkout" id="checkoutBtn">
+                <span>Checkout Sekarang</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
